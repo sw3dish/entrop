@@ -40,10 +40,12 @@ noun_2 = ["dog"]
 #counter for words in novel
 word_count = 0
 
+#percentage_chance to generate new word
+percentage_chance = .75
 
 def generate_word(list, pos):
-    #33% chance to generate new word
-    if random.randint(0,2) == 0:
+    #% chance to generate new word
+    if random.random() < percentage_chance:
         #repeat until word = pos
         while True:
             #get all synsets of random word in list
@@ -56,11 +58,19 @@ def generate_word(list, pos):
             elif ran == 1 and synset.hyponyms():
                 synset = synset.hyponyms()[random.randint(0, len(synset.hyponyms()) - 1)]
             #get random name from synset that does not contain an _ or - (these make the lib go insane)
-            while True:
-                word = synset.lemma_names()[random.randint(0, len(synset.lemma_names()) - 1)]
+            #words = the names of the synset
+            words = synset.lemma_names()
+            #this loop is to make sure an infinite loop does not occur
+            #where you are picking from all invalid choices
+            while len(words) > 0:
+                word = words[random.randint(0, len(words) - 1)]
                 if "_" not in word and "-" not in word:
                     break
-
+                else:
+                    words.remove(word)
+                    continue
+            if(len(words) == 0):
+                continue
             if ((pos == wn.NOUN and en.is_noun(word)) or 
                 (pos == wn.VERB and en.is_verb(word)) or
                 (pos == wn.ADJ and en.is_adjective(word))):
@@ -116,7 +126,6 @@ while word_count < 50000:
     sentence = generate_sentence()
     file.write(sentence + "\n")
     word_count += len(sentence.split())
-file.write(', '.join(adjective_1) + "\n")
 file.write("\nFin.")
 print "Done."
 
