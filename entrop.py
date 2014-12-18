@@ -40,6 +40,12 @@ noun_2 = ["dog"]
 #counter for words in novel
 word_count = 0
 
+#counter for every (sentence_factor) sentences generated, one is written
+sentence_count = 0
+
+#for every... sentences, one is written
+sentence_factor = 20
+
 #percentage_chance to generate new word
 percentage_chance = .75
 
@@ -121,11 +127,14 @@ sentence_1 = article + " " + adjective_1[0] + " " + adjective_2[0] + " " + noun_
              adjective_3[0] + " " + noun_2[0] + "."
 
 print "Generating..."
+file.write("entrop.py -- an exercise in randomness\n")
 file.write(sentence_1 + "\n")
 while word_count < 50000:
     sentence = generate_sentence()
-    file.write(sentence + "\n")
-    word_count += len(sentence.split())
+    sentence_count += 1
+    if sentence_count % sentence_factor == 0:
+        file.write(sentence + "\n")
+        word_count += len(sentence.split())
 file.write("\nFin.")
 print "Done."
 
