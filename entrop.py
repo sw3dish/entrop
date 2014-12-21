@@ -3,6 +3,7 @@ from nltk.corpus import wordnet as wn
 import en
 import datetime
 import random
+import os
 
 #create filename for new novel
 #format = entrop_novel_yy_mm_dd_HH_MM_SS
@@ -10,8 +11,16 @@ basename = "entrop_novel"
 suffix = datetime.datetime.now().strftime("%y_%m_%d_%H_%M_%S")
 
 filename = "_".join([basename, suffix])
+
+#find the directory that the script is located in
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+print script_dir
+
+rel_path = script_dir + '/drafts/'
+
 #open new .txt file with filename = filename, write permissions
-file = open(filename + '.txt', 'w')
+file = open(os.path.join(rel_path, filename + '.txt'), 'w')
 
 #only article is the 
 article = "the"
@@ -44,7 +53,7 @@ word_count = 0
 sentence_count = 0
 
 #for every... sentences, one is written
-sentence_factor = 20
+sentence_factor = 200
 
 #percentage_chance to generate new word
 percentage_chance = .75
@@ -127,7 +136,7 @@ sentence_1 = article + " " + adjective_1[0] + " " + adjective_2[0] + " " + noun_
              adjective_3[0] + " " + noun_2[0] + "."
 
 print "Generating..."
-file.write("entrop.py -- an exercise in randomness\n")
+file.write("entrop.py -- an exercise in randomness\n\n")
 file.write(sentence_1 + "\n")
 while word_count < 50000:
     sentence = generate_sentence()
