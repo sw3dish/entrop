@@ -14,9 +14,6 @@ filename = "_".join([basename, suffix])
 
 #find the directory that the script is located in
 script_dir = os.path.dirname(os.path.abspath(__file__))
-
-print script_dir
-
 rel_path = script_dir + '/drafts/'
 
 #open new .txt file with filename = filename, write permissions
@@ -52,11 +49,11 @@ word_count = 0
 #counter for every (sentence_factor) sentences generated, one is written
 sentence_count = 0
 
-#for every... sentences, one is written
-sentence_factor = 200
+#for every... sentences, one is written (choose random int between 1 and 500)
+sentence_factor = random.randint(1, 500)
 
-#percentage_chance to generate new word
-percentage_chance = .75
+#percentage_chance to generate new word (choose between 0 and 1)
+percentage_chance = random.random()
 
 def generate_word(list, pos):
     #% chance to generate new word
@@ -84,6 +81,7 @@ def generate_word(list, pos):
                 else:
                     words.remove(word)
                     continue
+            #if words doesn't have words in it, pick a new word from beginning
             if(len(words) == 0):
                 continue
             if ((pos == wn.NOUN and en.is_noun(word)) or 
@@ -91,7 +89,9 @@ def generate_word(list, pos):
                 (pos == wn.ADJ and en.is_adjective(word))):
                 
                 #fix word based on pos
-                #if verb, make sure the verb has a conjugation, 
+                #if verb, make sure the verb has a conjugation,
+                #if it does, or is not a verb, the word gets appended to the word array,
+                #and a word is returned 
                 if pos == wn.VERB:
                     try:
                         en.verb.present(word, person=3, negate=False)
@@ -106,6 +106,7 @@ def generate_word(list, pos):
                         list.append(word)
                     return word
     else:
+        #just select a random word from the existing ones
         return list[random.randint(0, len(list) - 1)]
 
 
@@ -135,8 +136,16 @@ sentence_1 = article + " " + adjective_1[0] + " " + adjective_2[0] + " " + noun_
              preposition[10] + " " + article + " " + \
              adjective_3[0] + " " + noun_2[0] + "."
 
+
+
 print "Generating..."
+print sentence_factor
+print percentage_chance
 file.write("entrop.py -- an exercise in randomness\n\n")
+file.write("--- metadata ---\n")
+file.write("sentence_factor = " + str(sentence_factor) + "\n")
+file.write("percentage_chance = " + str(percentage_chance) + "\n")
+file.write("----------------\n\n")
 file.write(sentence_1 + "\n")
 while word_count < 50000:
     sentence = generate_sentence()
