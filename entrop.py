@@ -8,7 +8,7 @@ import os
 #create filename for new novel
 #format = entrop_novel_yy_mm_dd_HH_MM_SS
 basename = "entrop_novel"
-suffix = datetime.datetime.now().strftime("%y_%m_%d_%H_%M_%S")
+suffix = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
 
 filename = "_".join([basename, suffix])
 
@@ -136,23 +136,23 @@ sentence_1 = article + " " + adjective_1[0] + " " + adjective_2[0] + " " + noun_
              preposition[10] + " " + article + " " + \
              adjective_3[0] + " " + noun_2[0] + "."
 
-
+counter = 0
 
 print "Generating..."
-print sentence_factor
-print percentage_chance
+print "sentence factor = " + str(sentence_factor)
+print "percentage change = " + str(percentage_chance)
 file.write("entrop.py -- an exercise in randomness\n\n")
 file.write("--- metadata ---\n")
 file.write("sentence_factor = " + str(sentence_factor) + "\n")
 file.write("percentage_chance = " + str(percentage_chance) + "\n")
 file.write("----------------\n\n")
 file.write(sentence_1 + "\n")
-while word_count < 50000:
+while counter < word_count:
     sentence = generate_sentence()
     sentence_count += 1
     if sentence_count % sentence_factor == 0:
         file.write(sentence + "\n")
-        word_count += len(sentence.split())
+        counter += len(sentence.split())
 file.write("\nFin.")
 print "Done."
 
