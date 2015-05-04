@@ -44,10 +44,10 @@ adjective_3 = ["lazy"]
 noun_2 = ["dog"]
 
 #counter for words in novel
-word_count = 0
+word_count = input('Words in novel?: ')
 
 #counter for every (sentence_factor) sentences generated, one is written
-sentence_count = 0
+sentence_count = input('Write one out of every x sentences. x=?: ')
 
 #for every... sentences, one is written (choose random int between 1 and 500)
 sentence_factor = random.randint(1, 500)
